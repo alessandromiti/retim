@@ -1,0 +1,2068 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RETIM | Software e soluzioni digitali per aziende</title>
+  <meta name="description" content="RETIM progetta e sviluppa software su misura, gestionali, siti web, integrazioni tra sistemi e piattaforme digitali per aziende.">
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    :root {
+      --black: #111111;
+      --white: #ffffff;
+      --gray: #666666;
+      --light-gray: #f5f5f3;
+      --border: #e8e8e5;
+      --max-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 95px;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid #555;
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 80px));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 110px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .section-title {
+      max-width: 760px;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 500;
+      letter-spacing: -2.8px;
+      line-height: 1.08;
+    }
+
+    .section-description {
+      max-width: 580px;
+      margin-top: 22px;
+      color: var(--gray);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    /* HEADER: LOGO MOLTO A SINISTRA */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 88px;
+      background: rgba(255, 255, 255, .96);
+      border-bottom: 1px solid rgba(0, 0, 0, .07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /*
+      IMPORTANTE:
+      Questo contenitore è indipendente dal .container
+      utilizzato nel resto della pagina.
+    */
+
+    .header .header-inner {
+      width: calc(100% - 32px);
+      max-width: none;
+      height: 100%;
+      margin-left: 16px;
+      margin-right: 16px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo img {
+      display: block;
+      width: 260px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .menu-button {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--white);
+      cursor: pointer;
+      transition: background .25s, border-color .25s;
+    }
+
+    .menu-button:hover {
+      background: var(--light-gray);
+      border-color: #bdbdbd;
+    }
+
+    .menu-line {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--black);
+      transition: transform .3s;
+    }
+
+    .menu-button[aria-expanded="true"] .menu-line:first-child {
+      transform: translateY(3.75px) rotate(45deg);
+    }
+
+    .menu-button[aria-expanded="true"] .menu-line:last-child {
+      transform: translateY(-3.75px) rotate(-45deg);
+    }
+
+    /* MENU */
+
+    .menu-overlay {
+      position: fixed;
+      inset: 88px 0 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 35px;
+      overflow-y: auto;
+      background: var(--white);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity .3s, visibility .3s, transform .3s;
+    }
+
+    .menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .menu-content {
+      width: min(700px, 100%);
+    }
+
+    .menu-label {
+      margin-bottom: 25px;
+      color: var(--gray);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .menu-links {
+      list-style: none;
+    }
+
+    .menu-links li {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .menu-links a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 19px 0;
+      font-size: clamp(27px, 5vw, 42px);
+      letter-spacing: -1.5px;
+      transition: padding .25s;
+    }
+
+    .menu-links a span {
+      color: #999;
+      font-size: 20px;
+      transition: transform .25s, color .25s;
+    }
+
+    .menu-links a:hover {
+      padding-left: 10px;
+    }
+
+    .menu-links a:hover span {
+      color: var(--black);
+      transform: translateX(5px);
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      padding: 95px 0;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(0, 0, 0, .045);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      top: 60px;
+      right: -180px;
+      width: 480px;
+      height: 480px;
+    }
+
+    .hero::after {
+      top: 110px;
+      right: -130px;
+      width: 380px;
+      height: 380px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      font-size: clamp(46px, 7.3vw, 92px);
+      font-weight: 500;
+      line-height: 1.02;
+      letter-spacing: -5px;
+      animation: fade-up .7s both;
+    }
+
+    .hero h1 span {
+      color: #858585;
+    }
+
+    .hero-description {
+      max-width: 580px;
+      margin-top: 30px;
+      color: var(--gray);
+      font-size: 17px;
+      line-height: 1.9;
+      animation: fade-up .7s .15s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 35px;
+      animation: fade-up .7s .25s both;
+    }
+
+    .button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 0 23px;
+      border: 1px solid var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .25s, color .25s, transform .25s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-dark {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .button-dark:hover {
+      background: #333;
+    }
+
+    .button-light {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .button-light:hover {
+      background: var(--light-gray);
+    }
+
+    .button-arrow {
+      font-size: 17px;
+      transition: transform .25s;
+    }
+
+    .button:hover .button-arrow {
+      transform: translateX(4px);
+    }
+
+    /* FASCIA SERVIZI */
+
+    .services-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .strip-inner {
+      min-height: 94px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .strip-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #555;
+      font-size: 12px;
+    }
+
+    .strip-item span {
+      color: #111;
+      font-size: 16px;
+    }
+
+    /* AZIENDA */
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .intro-copy {
+      padding-top: 45px;
+    }
+
+    .intro-copy p {
+      color: var(--gray);
+      font-size: 16px;
+      line-height: 1.95;
+    }
+
+    .intro-copy p + p {
+      margin-top: 20px;
+    }
+
+    .intro-highlight {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 1px solid var(--border);
+      color: var(--black) !important;
+      font-size: 19px !important;
+      font-weight: 500;
+    }
+
+    /* SERVIZI */
+
+    .services-section {
+      background: var(--light-gray);
+    }
+
+    .services-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 35px;
+      margin-bottom: 55px;
+    }
+
+    .services-heading .section-description {
+      max-width: 360px;
+      margin-top: 0;
+      font-size: 14px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .service-card {
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 30px;
+      border: 1px solid #e5e5e2;
+      background: var(--white);
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: #bdbdbd;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .035);
+    }
+
+    .service-top {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 27px;
+    }
+
+    .service-number {
+      color: #929292;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .service-icon {
+      width: 43px;
+      height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      font-size: 19px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 12px;
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -.7px;
+    }
+
+    .service-card p {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
+      padding-top: 23px;
+    }
+
+    .service-tags span {
+      padding: 5px 9px;
+      border: 1px solid var(--border);
+      color: #555;
+      font-size: 10px;
+    }
+
+    /* APPROCCIO */
+
+    .approach-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .approach-copy h3 {
+      max-width: 450px;
+      margin-bottom: 25px;
+      font-size: clamp(29px, 3.5vw, 42px);
+      font-weight: 500;
+      letter-spacing: -1.7px;
+      line-height: 1.2;
+    }
+
+    .approach-copy p {
+      color: var(--gray);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+
+    .approach-copy p + p {
+      margin-top: 18px;
+    }
+
+    .approach-copy .button {
+      margin-top: 30px;
+    }
+
+    .principles {
+      border-top: 1px solid var(--border);
+    }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 45px 1fr;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .principle-number {
+      color: #888;
+      font-size: 12px;
+    }
+
+    .principle h4 {
+      margin-bottom: 6px;
+      font-size: 17px;
+    }
+
+    .principle p {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* PROCESSO */
+
+    .process-section {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .process-section .eyebrow {
+      color: #c5c5c5;
+    }
+
+    .process-section .section-description {
+      color: #b5b5b5;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin-top: 65px;
+      border-top: 1px solid #393939;
+      border-bottom: 1px solid #393939;
+    }
+
+    .process-step {
+      min-height: 245px;
+      padding: 28px 22px 28px 0;
+    }
+
+    .process-step + .process-step {
+      padding-left: 22px;
+      border-left: 1px solid #393939;
+    }
+
+    .process-number {
+      display: block;
+      margin-bottom: 35px;
+      color: #8c8c8c;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .process-step h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .process-step p {
+      color: #b5b5b5;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    /* CONTATTI */
+
+    .contact-section {
+      padding: 110px 0;
+    }
+
+    .contact-heading {
+      max-width: 750px;
+      margin-bottom: 55px;
+    }
+
+    .contact-heading h2 {
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 500;
+      letter-spacing: -3.5px;
+      line-height: 1.05;
+    }
+
+    .contact-heading h2 span {
+      color: #858585;
+    }
+
+    .contact-heading > p {
+      max-width: 540px;
+      margin-top: 23px;
+      color: var(--gray);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      border: 1px solid var(--border);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 42px;
+      background: var(--light-gray);
+    }
+
+    .contact-info-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
+    }
+
+    .contact-info h3 {
+      margin-top: 40px;
+      font-size: clamp(25px, 3vw, 36px);
+      font-weight: 500;
+      letter-spacing: -1.3px;
+      line-height: 1.25;
+    }
+
+    .contact-info > p {
+      margin-top: 18px;
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .contact-info-divider {
+      width: 100%;
+      height: 1px;
+      margin: 35px 0;
+      background: #dededb;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 24px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .contact-detail-icon {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid #dededb;
+      border-radius: 50%;
+    }
+
+    .contact-detail-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #777;
+      font-size: 11px;
+    }
+
+    .contact-detail a,
+    .contact-detail p {
+      color: #171717;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: auto;
+      padding-top: 25px;
+      color: #666;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .contact-note-dot {
+      width: 6px;
+      height: 6px;
+      flex-shrink: 0;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: #222;
+    }
+
+    .contact-form-wrap {
+      min-width: 0;
+      padding: 42px;
+    }
+
+    .form-heading {
+      margin-bottom: 30px;
+    }
+
+    .form-heading h3 {
+      font-size: 23px;
+      font-weight: 600;
+      letter-spacing: -.7px;
+    }
+
+    .form-heading p {
+      margin-top: 7px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    #contactForm {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .form-field label {
+      margin-bottom: 9px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 14px;
+      border: 1px solid #dededb;
+      border-radius: 0;
+      outline: none;
+      background: #fff;
+      color: #111;
+      font-family: inherit;
+      font-size: 13px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .form-field input,
+    .form-field select {
+      min-height: 47px;
+    }
+
+    .form-field textarea {
+      min-height: 135px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: #999;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: #111;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, .06);
+    }
+
+    .field-hint {
+      margin-top: 7px;
+      color: #777;
+      font-size: 11px;
+    }
+
+    .privacy-field {
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      align-items: start;
+      gap: 11px;
+    }
+
+    .privacy-field input {
+      width: 15px;
+      height: 15px;
+      margin-top: 4px;
+      accent-color: #111;
+      cursor: pointer;
+    }
+
+    .privacy-field label {
+      color: #666;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .privacy-field a {
+      color: #111;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .contact-submit {
+      width: 100%;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 20px;
+      border: 1px solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .25s, transform .25s;
+    }
+
+    .contact-submit:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    .contact-submit:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .submit-arrow {
+      font-size: 19px;
+    }
+
+    .form-disclaimer {
+      color: #777;
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .form-feedback {
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--light-gray);
+      color: var(--black);
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .form-feedback.success {
+      border-color: #b9d8c0;
+      background: #f1faf3;
+    }
+
+    .form-feedback.error {
+      border-color: #e5baba;
+      background: #fff4f4;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 35px 0;
+    }
+
+    .footer-logo img {
+      display: block;
+      width: 180px;
+      max-width: 100%;
+      height: 48px;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .footer-description {
+      margin-top: 10px;
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+    }
+
+    .footer-links a {
+      color: #555;
+      font-size: 12px;
+    }
+
+    .footer-links a:hover {
+      color: var(--black);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      color: #777;
+      font-size: 11px;
+    }
+
+    /* ANIMAZIONI */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* TABLET */
+
+    @media (max-width: 900px) {
+      .container {
+        width: calc(100% - 48px);
+      }
+
+      .section {
+        padding: 85px 0;
+      }
+
+      .hero {
+        min-height: 570px;
+      }
+
+      .hero h1 {
+        letter-spacing: -3.5px;
+      }
+
+      .strip-inner {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px 35px;
+        padding: 25px 0;
+      }
+
+      .intro-grid,
+      .approach-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      .intro-copy {
+        padding-top: 0;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .services-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .process-step {
+        min-height: 210px;
+        padding: 25px 20px 25px 0;
+      }
+
+      .process-step + .process-step {
+        padding-left: 20px;
+      }
+
+      .process-step:nth-child(odd) {
+        border-left: none;
+        padding-left: 0;
+      }
+
+      .process-step:nth-child(n+3) {
+        border-top: 1px solid #393939;
+      }
+
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info {
+        min-height: 360px;
+      }
+    }
+
+    /* SMARTPHONE */
+
+    @media (max-width: 600px) {
+      .container {
+        width: calc(100% - 40px);
+      }
+
+      .header {
+        height: 76px;
+      }
+
+      /*
+        Su smartphone il logo resta vicino al bordo,
+        senza uscire dallo schermo.
+      */
+
+      .header .header-inner {
+        width: calc(100% - 20px);
+        margin-left: 10px;
+        margin-right: 10px;
+        gap: 8px;
+      }
+
+      .logo {
+        min-width: 0;
+        max-width: calc(100% - 54px);
+      }
+
+      .logo img {
+        width: 190px;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .menu-button {
+        width: 44px;
+        height: 44px;
+      }
+
+      .menu-overlay {
+        inset: 76px 0 0;
+        padding: 25px;
+      }
+
+      .menu-links a {
+        padding: 16px 0;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 85px 0 75px;
+      }
+
+      .hero::before {
+        top: 30px;
+        right: -310px;
+      }
+
+      .hero::after {
+        top: 65px;
+        right: -275px;
+      }
+
+      .hero h1 {
+        font-size: clamp(43px, 11.2vw, 64px);
+        letter-spacing: -2.7px;
+      }
+
+      .hero-description {
+        margin-top: 24px;
+        font-size: 15px;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .strip-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 12px;
+      }
+
+      .strip-item {
+        font-size: 11px;
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+
+      .section-title {
+        font-size: 39px;
+        letter-spacing: -1.8px;
+      }
+
+      .section-description {
+        font-size: 14px;
+      }
+
+      .intro-grid,
+      .approach-grid {
+        gap: 28px;
+      }
+
+      .intro-copy p {
+        font-size: 14px;
+      }
+
+      .intro-highlight {
+        font-size: 17px !important;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .service-card {
+        min-height: 265px;
+        padding: 25px;
+      }
+
+      .approach-copy h3 {
+        font-size: 32px;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr;
+        margin-top: 40px;
+      }
+
+      .process-step,
+      .process-step + .process-step,
+      .process-step:nth-child(odd) {
+        min-height: auto;
+        padding: 25px 0;
+        border-left: none;
+      }
+
+      .process-step + .process-step {
+        border-top: 1px solid #393939;
+      }
+
+      .process-number {
+        margin-bottom: 18px;
+      }
+
+      .contact-section {
+        padding: 75px 0;
+      }
+
+      .contact-heading h2 {
+        font-size: 43px;
+        letter-spacing: -2px;
+      }
+
+      .contact-info,
+      .contact-form-wrap {
+        padding: 26px 22px;
+      }
+
+      .contact-info h3 {
+        margin-top: 28px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .footer-main {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .footer-links {
+        gap: 16px 22px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="logo" href="#home" aria-label="RETIM - Home">
+        <img src="logo.PNG" alt="RETIM">
+      </a>
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        type="button"
+        aria-label="Apri menu"
+        aria-expanded="false"
+        aria-controls="menuOverlay"
+      >
+        <span class="menu-line"></span>
+        <span class="menu-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MENU -->
+  <nav
+    class="menu-overlay"
+    id="menuOverlay"
+    aria-label="Menu principale"
+    aria-hidden="true"
+    inert
+  >
+    <div class="menu-content">
+      <p class="menu-label">Navigazione</p>
+      <ul class="menu-links">
+        <li><a href="#home">Home <span>↗</span></a></li>
+        <li><a href="#azienda">Azienda <span>↗</span></a></li>
+        <li><a href="#servizi">Servizi <span>↗</span></a></li>
+        <li><a href="#approccio">Approccio <span>↗</span></a></li>
+        <li><a href="#processo">Come lavoriamo <span>↗</span></a></li>
+        <li><a href="#contatti">Contatti <span>↗</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <h1>
+            Tecnologia su misura.<br>
+            <span>Risultati concreti.</span>
+          </h1>
+
+          <p class="hero-description">
+            RETIM progetta e sviluppa software, gestionali e sistemi
+            digitali personalizzati per aiutare le aziende a lavorare
+            meglio, con processi più efficienti e strumenti che
+            comunicano tra loro.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-dark" href="#servizi">
+              Scopri i servizi
+              <span class="button-arrow">↗</span>
+            </a>
+
+            <a class="button button-light" href="#contatti">
+              Parliamo del tuo progetto
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AREE DI COMPETENZA -->
+    <div class="services-strip">
+      <div class="container strip-inner">
+        <div class="strip-item"><span>⌘</span> Software su misura</div>
+        <div class="strip-item"><span>↗</span> Web development</div>
+        <div class="strip-item"><span>⛓</span> Integrazione sistemi</div>
+        <div class="strip-item"><span>▤</span> Dati e piattaforme</div>
+      </div>
+    </div>
+
+    <!-- AZIENDA -->
+    <section class="section" id="azienda">
+      <div class="container intro-grid">
+        <div class="reveal">
+          <span class="eyebrow">01 / L'azienda</span>
+          <h2 class="section-title">
+            La tecnologia deve adattarsi al tuo business.
+          </h2>
+        </div>
+
+        <div class="intro-copy reveal">
+          <p>
+            RETIM è una software house che progetta e sviluppa
+            soluzioni digitali su misura per le aziende.
+          </p>
+          <p>
+            Analizziamo i processi, individuiamo le esigenze operative
+            e realizziamo strumenti digitali progettati per risolvere
+            problemi reali.
+          </p>
+          <p>
+            Dal software gestionale alle piattaforme web, colleghiamo
+            dati, applicazioni e sistemi aziendali per rendere il
+            lavoro più semplice e organizzato.
+          </p>
+          <p class="intro-highlight">
+            Non un software qualsiasi, ma una soluzione costruita
+            intorno al modo in cui lavori.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVIZI -->
+    <section class="section services-section" id="servizi">
+      <div class="container">
+        <div class="services-heading reveal">
+          <div>
+            <span class="eyebrow">02 / Cosa facciamo</span>
+            <h2 class="section-title">
+              Soluzioni digitali,<br>
+              un unico partner.
+            </h2>
+          </div>
+
+          <p class="section-description">
+            Dallo sviluppo di un sito web alla gestione dei processi
+            aziendali: realizziamo strumenti concreti, progettati
+            in base alle tue necessità.
+          </p>
+        </div>
+
+        <div class="services-grid">
+
+          <article class="service-card reveal">
+            <div class="service-top">
+              <span class="service-number">01 / WEB</span>
+              <span class="service-icon">↗</span>
+            </div>
+            <h3>Web Development</h3>
+            <p>
+              Siti web, e-commerce e applicazioni web veloci, moderne
+              e progettate per gli obiettivi della tua azienda.
+            </p>
+            <div class="service-tags">
+              <span>Siti aziendali</span>
+              <span>E-commerce</span>
+              <span>Web app</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-top">
+              <span class="service-number">02 / SOFTWARE</span>
+              <span class="service-icon">⌘</span>
+            </div>
+            <h3>Software &amp; Gestionali</h3>
+            <p>
+              Software personalizzati per organizzare attività,
+              gestire informazioni e ridurre le operazioni manuali.
+            </p>
+            <div class="service-tags">
+              <span>Gestionali</span>
+              <span>Ordini</span>
+              <span>Magazzino</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-top">
+              <span class="service-number">03 / INTEGRATION</span>
+              <span class="service-icon">⛓</span>
+            </div>
+            <h3>Software Integration</h3>
+            <p>
+              Colleghiamo i software già utilizzati dalla tua azienda
+              per sincronizzare dati e automatizzare flussi.
+            </p>
+            <div class="service-tags">
+              <span>API</span>
+              <span>CRM</span>
+              <span>Automazioni</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-top">
+              <span class="service-number">04 / DATA</span>
+              <span class="service-icon">▥</span>
+            </div>
+            <h3>Data &amp; Dashboards</h3>
+            <p>
+              Trasformiamo i dati aziendali in dashboard, report
+              e indicatori chiari per monitorare le attività.
+            </p>
+            <div class="service-tags">
+              <span>Dashboard</span>
+              <span>KPI</span>
+              <span>Analytics</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-top">
+              <span class="service-number">05 / SAAS</span>
+              <span class="service-icon">☁</span>
+            </div>
+            <h3>SaaS &amp; Cloud</h3>
+            <p>
+              Progettiamo piattaforme accessibili online, multiutente
+              e scalabili per servizi digitali B2B.
+            </p>
+            <div class="service-tags">
+              <span>Cloud</span>
+              <span>Piattaforme B2B</span>
+              <span>Abbonamenti</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-top">
+              <span class="service-number">06 / PLATFORMS</span>
+              <span class="service-icon">▣</span>
+            </div>
+            <h3>Apps &amp; Platforms</h3>
+            <p>
+              Sviluppiamo applicazioni e piattaforme digitali
+              personalizzate per creare nuovi servizi e prodotti.
+            </p>
+            <div class="service-tags">
+              <span>App mobile</span>
+              <span>Web app</span>
+              <span>Prodotti digitali</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROCCIO -->
+    <section class="section" id="approccio">
+      <div class="container approach-grid">
+        <div class="approach-copy reveal">
+          <span class="eyebrow">03 / Il nostro approccio</span>
+          <h3>
+            Prima capiamo il problema.
+            Poi sviluppiamo la soluzione.
+          </h3>
+          <p>
+            Ogni azienda ha esigenze, processi e strumenti differenti.
+            Per questo partiamo dall'ascolto e dall'analisi, prima
+            di scegliere come realizzare la soluzione.
+          </p>
+          <p>
+            Il risultato è un sistema progettato per integrarsi
+            nell'organizzazione esistente e crescere insieme alle
+            necessità del business.
+          </p>
+          <a class="button button-dark" href="#processo">
+            Il nostro metodo
+            <span class="button-arrow">↗</span>
+          </a>
+        </div>
+
+        <div class="principles reveal">
+          <div class="principle">
+            <span class="principle-number">01</span>
+            <div>
+              <h4>Progettato sulle esigenze reali</h4>
+              <p>
+                Funzionalità e strumenti definiti in base ai processi
+                e agli obiettivi dell'azienda.
+              </p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">02</span>
+            <div>
+              <h4>Sistemi che comunicano</h4>
+              <p>
+                Integriamo applicazioni e informazioni per ridurre
+                duplicazioni e passaggi manuali.
+              </p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">03</span>
+            <div>
+              <h4>Una struttura pronta a crescere</h4>
+              <p>
+                Soluzioni progettate per poter evolvere insieme
+                all'azienda e alle sue necessità.
+              </p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">04</span>
+            <div>
+              <h4>Attenzione alla semplicità</h4>
+              <p>
+                Interfacce e processi chiari, per rendere la tecnologia
+                uno strumento di lavoro.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESSO -->
+    <section class="section process-section" id="processo">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow">04 / Come lavoriamo</span>
+          <h2 class="section-title">
+            Dall'idea al sistema<br>
+            in funzione.
+          </h2>
+          <p class="section-description">
+            Un percorso strutturato per trasformare un'esigenza
+            aziendale in una soluzione digitale concreta.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-step reveal">
+            <span class="process-number">01 — ANALISI</span>
+            <h3>Ascoltiamo</h3>
+            <p>
+              Analizziamo esigenze, processi, strumenti e obiettivi
+              aziendali.
+            </p>
+          </article>
+
+          <article class="process-step reveal">
+            <span class="process-number">02 — PROGETTAZIONE</span>
+            <h3>Progettiamo</h3>
+            <p>
+              Definiamo struttura, funzionalità ed esperienza
+              di utilizzo.
+            </p>
+          </article>
+
+          <article class="process-step reveal">
+            <span class="process-number">03 — SVILUPPO</span>
+            <h3>Realizziamo</h3>
+            <p>
+              Sviluppiamo software, applicazioni e infrastruttura
+              digitale.
+            </p>
+          </article>
+
+          <article class="process-step reveal">
+            <span class="process-number">04 — INTEGRAZIONE</span>
+            <h3>Colleghiamo</h3>
+            <p>
+              Integriamo la soluzione con i sistemi e i dati già
+              presenti.
+            </p>
+          </article>
+
+          <article class="process-step reveal">
+            <span class="process-number">05 — EVOLUZIONE</span>
+            <h3>Miglioriamo</h3>
+            <p>
+              Evolviamo il sistema in funzione delle nuove esigenze.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATTI -->
+    <section class="contact-section" id="contatti">
+      <div class="container">
+        <div class="contact-heading reveal">
+          <span class="eyebrow">05 / Contatti</span>
+          <h2>
+            Parliamo del tuo<br>
+            <span>prossimo progetto.</span>
+          </h2>
+          <p>
+            Hai bisogno di un software, un gestionale o una soluzione
+            digitale personalizzata? Raccontaci cosa ti serve.
+          </p>
+        </div>
+
+        <div class="contact-layout">
+          <aside class="contact-info reveal">
+            <span class="contact-info-label">ENTRIAMO IN CONTATTO</span>
+
+            <h3>
+              Costruiamo la soluzione giusta per la tua azienda.
+            </h3>
+
+            <p>
+              Descrivici la tua idea, il processo che vuoi migliorare
+              o il problema che desideri risolvere.
+            </p>
+
+            <div class="contact-info-divider"></div>
+
+            <div class="contact-detail">
+              <span class="contact-detail-icon">@</span>
+              <div>
+                <span class="contact-detail-label">Email</span>
+                <a href="mailto:alessandromiti.io@gmail.com">
+                  alessandromiti.io@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <span class="contact-detail-icon">↗</span>
+              <div>
+                <span class="contact-detail-label">Ambito</span>
+                <p>Software e soluzioni digitali per aziende</p>
+              </div>
+            </div>
+
+            <div class="contact-note">
+              <span class="contact-note-dot"></span>
+              Raccontaci il tuo progetto. Al resto pensiamo insieme.
+            </div>
+          </aside>
+
+          <div class="contact-form-wrap reveal">
+            <div class="form-heading">
+              <h3>Richiedi informazioni</h3>
+              <p>I campi contrassegnati con * sono obbligatori.</p>
+            </div>
+
+            <form
+              id="contactForm"
+              action="https://formspree.io/f/xbglbwoq"
+              method="POST"
+            >
+              <input
+                type="hidden"
+                name="_subject"
+                value="Nuova richiesta di informazioni - RETIM"
+              >
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="name">Nome e cognome *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Mario Rossi"
+                    autocomplete="name"
+                    maxlength="100"
+                    required
+                  >
+                </div>
+
+                <div class="form-field">
+                  <label for="company">Azienda</label>
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    placeholder="Nome azienda"
+                    autocomplete="organization"
+                    maxlength="150"
+                  >
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="email">Email *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="nome@azienda.it"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                  >
+                </div>
+
+                <div class="form-field">
+                  <label for="service">Servizio di interesse *</label>
+                  <select id="service" name="service" required>
+                    <option value="" disabled selected>
+                      Seleziona un servizio
+                    </option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Software e gestionali">Software e gestionali</option>
+                    <option value="Software Integration">Software Integration</option>
+                    <option value="Data e dashboard">Data e dashboard</option>
+                    <option value="SaaS e cloud">SaaS e cloud</option>
+                    <option value="App e piattaforme">App e piattaforme</option>
+                    <option value="Altro / Da definire">Altro / Da definire</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="budget">Budget indicativo</label>
+                <select id="budget" name="budget">
+                  <option value="">Preferisco parlarne</option>
+                  <option value="Meno di 1.000 euro">Meno di 1.000 €</option>
+                  <option value="1.000–3.000 euro">1.000–3.000 €</option>
+                  <option value="3.000–5.000 euro">3.000–5.000 €</option>
+                  <option value="5.000–10.000 euro">5.000–10.000 €</option>
+                  <option value="Oltre 10.000 euro">Oltre 10.000 €</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="message">Parlaci del tuo progetto *</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  placeholder="Di cosa ha bisogno la tua azienda? Quale problema vuoi risolvere?"
+                  minlength="10"
+                  maxlength="5000"
+                  required
+                ></textarea>
+                <span class="field-hint">
+                  Descrivi brevemente la tua esigenza.
+                </span>
+              </div>
+
+              <div class="privacy-field">
+                <input
+                  type="checkbox"
+                  id="privacy"
+                  name="privacy_acknowledged"
+                  value="yes"
+                  required
+                >
+                <label for="privacy">
+                  Dichiaro di aver letto l'
+                  <a href="privacy.html" target="_blank" rel="noopener">
+                    informativa sulla privacy
+                  </a>
+                  relativa alla gestione dei dati inviati con la richiesta. *
+                </label>
+              </div>
+
+              <button type="submit" class="contact-submit" id="submitButton">
+                <span id="submitLabel">Invia la richiesta</span>
+                <span class="submit-arrow">↗</span>
+              </button>
+
+              <p class="form-disclaimer">
+                Il modulo trasmette i dati tramite Formspree.
+                I dati saranno trattati per gestire la richiesta
+                secondo quanto indicato nell'informativa privacy.
+              </p>
+
+              <div
+                class="form-feedback"
+                id="formFeedback"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div>
+          <a class="footer-logo" href="#home" aria-label="RETIM - Home">
+            <img src="logo.PNG" alt="RETIM">
+          </a>
+          <p class="footer-description">
+            Software su misura per aziende.
+          </p>
+        </div>
+
+        <nav class="footer-links" aria-label="Link footer">
+          <a href="#azienda">Azienda</a>
+          <a href="#servizi">Servizi</a>
+          <a href="#approccio">Approccio</a>
+          <a href="#contatti">Contatti</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="currentYear"></span> RETIM. Tutti i diritti riservati.</p>
+        <p>Software · Sistemi · Soluzioni digitali</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // MENU HAMBURGER
+
+    const menuButton = document.getElementById("menuButton");
+    const menuOverlay = document.getElementById("menuOverlay");
+    const menuLinks = document.querySelectorAll(".menu-links a");
+
+    function setMenu(open) {
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute(
+        "aria-label",
+        open ? "Chiudi menu" : "Apri menu"
+      );
+
+      menuOverlay.classList.toggle("open", open);
+      menuOverlay.setAttribute("aria-hidden", String(!open));
+      menuOverlay.inert = !open;
+      document.body.classList.toggle("menu-open", open);
+    }
+
+    menuButton.addEventListener("click", () => {
+      const isOpen =
+        menuButton.getAttribute("aria-expanded") === "true";
+
+      setMenu(!isOpen);
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setMenu(false);
+      }
+    });
+
+    // ANIMAZIONI ALLO SCORRIMENTO
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries, currentObserver) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              currentObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: "0px 0px -30px 0px"
+        }
+      );
+
+      revealElements.forEach((element) => observer.observe(element));
+    } else {
+      revealElements.forEach((element) => {
+        element.classList.add("visible");
+      });
+    }
+
+    // ANNO AUTOMATICO
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    // MODULO FORMSPREE
+
+    const contactForm = document.getElementById("contactForm");
+    const formFeedback = document.getElementById("formFeedback");
+    const submitButton = document.getElementById("submitButton");
+    const submitLabel = document.getElementById("submitLabel");
+
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!contactForm.reportValidity()) {
+        return;
+      }
+
+      const originalLabel = submitLabel.textContent;
+
+      submitButton.disabled = true;
+      submitLabel.textContent = "Invio in corso...";
+      formFeedback.hidden = true;
+      formFeedback.className = "form-feedback";
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: new FormData(contactForm),
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        if (response.ok) {
+          formFeedback.textContent =
+            "Richiesta inviata correttamente. Grazie per aver contattato RETIM!";
+
+          formFeedback.classList.add("success");
+          formFeedback.hidden = false;
+          contactForm.reset();
+        } else {
+          let errorMessage =
+            "Non è stato possibile inviare la richiesta. Riprova tra poco.";
+
+          try {
+            const result = await response.json();
+
+            if (result.errors && result.errors.length) {
+              errorMessage = result.errors
+                .map((item) => item.message)
+                .join(" ");
+            }
+          } catch (error) {
+            // Mantiene il messaggio predefinito se la risposta
+            // del servizio non contiene JSON leggibile.
+          }
+
+          formFeedback.textContent = errorMessage;
+          formFeedback.classList.add("error");
+          formFeedback.hidden = false;
+        }
+      } catch (error) {
+        formFeedback.textContent =
+          "Problema di connessione o di comunicazione con il servizio. Riprova oppure contattaci via email.";
+
+        formFeedback.classList.add("error");
+        formFeedback.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        submitLabel.textContent = originalLabel;
+      }
+    });
+  </script>
+
+</body>
+</html>
